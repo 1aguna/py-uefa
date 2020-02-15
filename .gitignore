@@ -1,0 +1,5 @@
+events/
+football-events/
+env/
+.vscode/
+cache.sqlite
