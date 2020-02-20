@@ -12,6 +12,10 @@ def print_samp_standings():
     plt.show()
 
 def update_sa_standings():
+    """
+    Updates standings of league by making API calls
+    and writing the changes to a json
+    """
     
     # query to get new scores. Updates on wednesday 
     custom_headers = {"X-Auth-Token": API_KEY}
@@ -35,33 +39,28 @@ def update_sa_standings():
 
 
 
-sa_standings = {
-    "AC Chievo Verona": [14,20],
-    "AC Milan": [12,17],
-    "ACF Fiorentina": [10,8],
-    "AS Roma": [5,5],
-    "Atalanta BC": [1,4],
-    "Bologna FC 1909": [16,14],
-    "Cagliari Calcio": [19,15],
-    "Empoli FC": [2,10],
-    "FC Internazionale Milano": [17,11],
-    "Frosinone Calcio": [20,16],
-    "Genoa CFC": [11,9],
-    "Juventus FC": [3,1],
-    "Parma Calcio 1913": [8,12],
-    "SPAL 2013": [7,3],
-    "SS Lazio": [15,19],
-    "SSC Napoli": [4,2],
-    "Torino FC": [18,13],
-    "UC Sampdoria": [13,18],
-    "US Sassuolo Calcio": [6,6],
-    "Udinese Calcio": [9,7],
-}
-
-# json_file = json.dumps(sa_standings)
-# f = open("sa_standings.json", "w")
-# f.write(json_file)
-# f.close()
+# sa_standings = {
+#     "AC Chievo Verona": [14,20],
+#     "AC Milan": [12,17],
+#     "ACF Fiorentina": [10,8],
+#     "AS Roma": [5,5],
+#     "Atalanta BC": [1,4],
+#     "Bologna FC 1909": [16,14],
+#     "Cagliari Calcio": [19,15],
+#     "Empoli FC": [2,10],
+#     "FC Internazionale Milano": [17,11],
+#     "Frosinone Calcio": [20,16],
+#     "Genoa CFC": [11,9],
+#     "Juventus FC": [3,1],
+#     "Parma Calcio 1913": [8,12],
+#     "SPAL 2013": [7,3],
+#     "SS Lazio": [15,19],
+#     "SSC Napoli": [4,2],
+#     "Torino FC": [18,13],
+#     "UC Sampdoria": [13,18],
+#     "US Sassuolo Calcio": [6,6],
+#     "Udinese Calcio": [9,7],
+# }
 
 print_samp_standings()
 

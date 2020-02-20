@@ -11,6 +11,11 @@ API_KEY = os.environ["SSC_KEY"]
 
 
 def print_teams():
+    """
+    Available leagues to choose from
+    Input from user must match the code in paranthesis
+    eg. League Name (CODE)2
+    """
 
     print("Bundesliga (BL)")
     print("English Premier League (EPL)")
@@ -24,6 +29,15 @@ def print_teams():
     return
 
 def get_standings(league_key):
+    """
+    Make API call to get league information. Prints league information
+    in tablular format. Free tier API limit number of calls per month
+
+    Args:
+        league_key (string): The league code used to make API call
+    """
+
+    # Make call to football data API to get league information
     custom_headers = {"X-Auth-Token": API_KEY}
     response = requests.get(
         BASE_URL +
@@ -36,10 +50,11 @@ def get_standings(league_key):
     # set var to correct path to access standings easier
     curr_league = standings["standings"][0]["table"]
 
-    # assembly the data table
+    # assemble the data table
     size = config.league_sizes[league_key]
     league_table = [None] * size  # number of teams
 
+    
     i = 0
     while i < size:
         # team_list represents the data of ONE team
@@ -69,31 +84,34 @@ def get_standings(league_key):
     return 
 
 
-# function to find out which the appropriate config.coloring of each team
-# Leagues handle relegation differently
-# Champions league and europe league slots can also change over the season
-# so i left them seperately as well.
-# I chose to have different paths for all the leagues
-# in order to make changes to each leagues
-#
-# data_row is a single row in the table
-# contains a singles entire team's standings data
-#
-# data_row[0] teams name
-# data_row[1] games played
-# data_row[2] Wins
-# data_row[3] draws
-# data_row[4] Loss
-# data_row[5] goals for
-# data_row[6] goals against
-# data_row[7] goal differential
-# data_row[8] pts
-#
-# league_id must be a string abbreviation of the leagues
-# ie. BL, EPL, or SA
-#
-# position is the standing in the table
 def modify_strings(data_row, position, league_id):
+    """
+    function to find out which the appropriate config.coloring of each team
+    Leagues handle relegation differently
+    Champions league and europe league slots can also change over the season
+    so i left them seperately as well.
+    I chose to have different paths for all the leagues
+    in order to make changes to each leagues
+
+    Args:
+        data_row is a single row in the table
+        contains a singles entire team's standings data
+
+        data_row[0] teams name
+        data_row[1] games played
+        data_row[2] Wins
+        data_row[3] draws
+        data_row[4] Loss
+        data_row[5] goals for
+        data_row[6] goals against
+        data_row[7] goal differential
+        data_row[8] pts
+
+        league_id must be a string abbreviation of the leagues
+        ie. BL, EPL, or SA
+
+        position is the team's standing in the table
+    """
     league_key = config.league_vals[league_id]
 
     # not functional atm
@@ -117,6 +135,15 @@ def modify_strings(data_row, position, league_id):
 
 
 def standing_colors(qualif_code, manip_list):
+    """
+    Apply appropriate color manipulation to the teams. Each League
+    has different metrics for qualifying for European leagues
+    and getting relegated.
+
+    Args:
+        qualif_code (string): Modification to apply
+        manip_list (string): Data to modify
+    """
     if qualif_code == "ucl":
         i = 0
         while i < len(manip_list):
@@ -145,6 +172,11 @@ def standing_colors(qualif_code, manip_list):
         return manip_list
 
 def test():
+    """
+    Test function. Try not to call often to conserve API calls
+
+    Tests API call and string modification
+    """
     custom_headers = {"X-Auth-Token": API_KEY}
     response = requests.get(BASE_URL + "competitions/" +
                             str(2019) + "/standings", headers=custom_headers)
@@ -156,19 +188,14 @@ def test():
     base = config.color.BOLD + base + config.color.END
 
     print(base)
-
-    # x_coord = [None] * 2
-
-    # i = 0
-
-    # while i < len(x_coord):
-    #     ycoord = [1,2,3]
-    #     x_coord[i] = ycoord
-    #     i += 1
-
-    # return x_coord
     
 def test_standings(league_key):  # league id is the NUMBER CODE
+    """
+    Test function. Try not to call to often to conserve API calls
+
+    Checking for league config.codes outside of the for loop eliminates
+    excess checking but creates duplicate code
+    """
 
     custom_headers = {"X-Auth-Token": API_KEY}
     response = requests.get(
@@ -180,12 +207,7 @@ def test_standings(league_key):  # league id is the NUMBER CODE
     standings = response.json()  # turn response string into dictionary
     # set var to correct path to access standings easier
     table = standings["standings"][0]["table"]
-
-    """
-    checking for league config.codes outside of the for loop eliminates
-    excess checking but creates duplicate code
-    """
-
+    
     total = 0
     for teams in table:  # for each team in the league
         if league_key == config.codes["Ligue 1"]:  # french ligue 1

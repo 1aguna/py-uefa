@@ -13,14 +13,6 @@ from termcolor import colored
 print("Pick a code from the following: ")
 term_output.print_teams()
 
-entry = input(": ")
+entry = input(": ") 
 
-# term_output.test_standings(config.codes[entry])
-#print(term_output.test())
-
-term_output.get_standings(entry)
-
-# hi = "hi"
-# hi = colored(hi, "cyan")
-# hi = colored(hi, attrs=["bold"])
-# print(hi)
+term_output.get_standings(entry) # print team information 
